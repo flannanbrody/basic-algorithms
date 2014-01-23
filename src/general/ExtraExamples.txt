@@ -1,0 +1,236 @@
+================
+Recrusion
+================
+
+Your first recursive program. The HelloWorld for recursion is to implement the factorial function, which is defined for positive 
+integers N by the equation
+N! = N �� (N-1) �� (N-2) �� ... �� 2 �� 1
+N! is easy to compute with a for loop, but an even easier method in Factorial.java is to use the following recursive function:
+
+	public static int factorial(int N) { 
+	   if (N == 1) return 1; 
+	   return N * factorial(N-1); 
+	} 
+
+You can persuade yourself that it produces the desired result by noting that factorial() returns 1 = 1! when N is 1 and that if it 
+properly computes the value
+
+	(N-1)! = (N-1) �� (N-2) �� ... �� 2 �� 1
+
+then it properly computes the value
+
+	N! = N �� (N-1)! = N �� (N-1) �� (N-2) �� ... �� 2 �� 1
+
+We can trace this computation in the same way that we trace any sequence of function calls.
+
+	factorial(5) 
+	   factorial(4) 
+	      factorial(3) 
+	         factorial(2) 
+	            factorial(1) 
+	               return 1 
+	            return 2*1 = 2 
+	         return 3*2 = 6 
+	      return 4*6 = 24 
+	   return 5*24 = 120
+   
+Our factorial() implementation exhibits the two main components that are required for every recursive function.
+1) The base case returns a value without making any subsequent recursive calls. It does this for one or more special 
+   input values for which the function can be evaluated without recursion. For factorial(), the base case is N = 1.
+2) The reduction step is the central part of a recursive function. It relates the function at one (or more) inputs 
+   to the function evaluated at one (or more) other inputs. Furthermore, the sequence of parameter values must converge
+   to the base case. For factorial(), the reduction step is N * factorial(N-1) and N decreases by one for each call, 
+   so the sequence of parameter values converges to the base case of N = 1.
+   
+  Mathematical induction. 
+Recursive programming is directly related to mathematical induction, a technique for proving facts about discrete functions. Proving 
+that a statement involving an integer N is true for infinitely many values of N by mathematical induction involves two steps.
+1) The base case is to prove the statement true for some specific value or values of N (usually 0 or 1).
+2) The induction step is the central part of the proof. For example, we typically assume that a statement is true for all positive 
+   integers less than N, then use that fact to prove it true for N. Such a proof suffices to show that the statement is true for 
+   all N: we can start at the base case, and use our proof to establish that the statement is true for each larger value of N, one 
+   by one. 
+   
+ Euclid's algorithm. 
+The greatest common divisor (gcd) of two positive integers is the largest integer that divides evenly into both of them. 
+For example, the greatest common divisor of 102 and 68 is 34 since both 102 and 68 are multiples of 34, but no integer larger 
+than 34 divides evenly into 102 and 68.We can efficiently compute the gcd using the following property, which holds for positive 
+integers p and q:  
+   
+   
+ Q + A
+
+Q. Are there situations when iteration is the only option available to address a problem?
+A. No, any loop can be replaced by a recursive function, though the recursive version might require excessive memory.
+Q. Are there situations when recursion is the only option available to address a problem?
+A. No, any recursive function can be replaced by an iterative counterpart. In Section 4.3, we will see how compilers produce code for 
+   function calls by using a data structure called a stack.
+Q. Which should I prefer, recursion or iteration?
+A. Whichever leads to the simpler, more easily understood, or more efficient code.
+Q. I get the concern about excessive space and excessive recomputation in recursive code. Anything else to be concerned about?
+A. Be extremely wary of creating arrays in recursive code. The amount of space used can pile up very quickly, as can the amount of 
+   time required for memory management.  
+   
+   
+   
+   
+   
+   
+   Permutation
+Suppose we want to find the number of ways to arrange the three letters in the word CAT in different two-letter groups where CA is different from AC and there are no repeated letters.
+
+Because order matters, we're finding the number of permutations of size 2 that can be taken from a set of size 3. This is often written 3_P_2. We can list them as:
+
+CA CT AC AT TC TA
+
+Combination
+When we want to find the number of combinations of size 2 without repeated letters that can be made from the three letters in the word CAT, order doesn't matter; AT is the same as TA. We can write out the three combinations of size two that can be taken from this set of size three:
+
+CA CT AT 
+
+
+
+Given 'n' objects out of which you have to choose 'r':
+
+a permutation is defined as:
+nPr = n!/(n-r)!
+
+and a Combination is defined as:
+nCr = n!/( r!*(n-r)! )
+
+where n! (read: 'n factorial') is defined as the product of all positive integers less than or equal to 'n'. In mathematical terms:
+
+n! = n*(n-1)*(n-2)*...*2*1
+
+The basics of Combinatorial algebra:
+
+A permutation is a re-arrangement of a group of objects or a selection out of the group of objects. Each re-arrangement of objects (or the selction) is counted as one permutation. For example, consider two apples to be placed in three boxes, numbered 1,2,3.
+The different arrangements could then be as follows:
+A1-B1, A2-B2, B3
+A1-B1, B2, A2-B3
+B1, A1-B2, A2-B3
+B1, A2-B2, A1-B3
+A2-B1, B2, A1-B3
+A2-B1, A1-B2, B3
+
+You can observe that there are six ways to re-arrange two apples in three boxes.
+
+Note that, we have given each apple a distinct identity. Apple 1 is A1 and Apple 2 is A2. However, one can assume that both the apples look alike (A1=A2=A say).
+
+In other words, both apples are the same and it does not make a difference which of the two apples is chosen.
+
+The above arrangements can then be divided into two identical sets of three arrangements. This set is called a combination.
+
+The essential difference between a permutation and a combination is:
+"In a permutation, each object is considered to be distinct, whereas, in a combination, all objects are considered to be alike and indistinct."
+
+In other words,
+"A combination is simply a choice of objects, while a permutation is a rearrangement or (sometimes, a re-alignment) of the choice of objects." 
+
+
+
+
+
+Permutations and combinations
+
+When we talk of permutations and combinations in everyday talk we often use the two terms interchangeably. In mathematics, however, the two each have very specific meanings, and this distinction often causes problems.
+
+In brief, the permutation of a number of objects is the number of different ways they can be ordered; i.e. which is first, second, third, etc. If you wish to choose some objects from a larger number of objects, the way you position the chosen objects is also important. With combinations, on the other hand, one does not consider the order in which objects were chosen or placed, just which objects were chosen. We could summarise permutations and combinations (very simplistically) as
+
+Permutations - position important (although choice may also be important)
+Combinations - chosen important,
+which may help you to remember which is which.
+
+Pictures on a wall
+
+Suppose you have to put some pictures on the wall, and suppose you only have two pictures: A and B.
+
+You could hang them
+
+Order 1 or
+
+Order 2
+
+Not much of a choice, but it leads on to the difference between permutations and combinations.
+
+
+
+THE IMPORTANT DIFFERENCE
+
+As mentioned above, there is an important difference between permutations and combinations. In this case, for permutations the order of events is important: order 1 is different from order 2. For combinations, however, it does not matter which picture was hung first. In this example there are two permutations (A, B ≠ B, A), but only one combination (A, B = B, A).
+
+Another way that you may find useful to help you remember is to consider a combination lock. On combination locks you have to turn dials with numbers on so a particular number is given, e.g. '1, 2, 3, 4'. But they do not unlock when if the order is changed (e.g. 2, 1, 3, 4). In this case the order is important. So combination locks should not be called combination locks but 'permutation' locks.
+
+
+A permutation lock!
+
+Now we know the difference between combinations and permutations let us consider a more complicated picture-hanging problem. First we will look at permutations.
+
+
+
+Two company, three's a crowd!
+
+This time you have three pictures, called, not surprisingly, A, B and C. How many different permutations are there for you to hang your works of art? A worrying problem indeed! Let's hang them up.
+
+When we hang the first picture we can choose from all three.
+
+
+
+or or
+
+When we get to the next picture we have only two to choose from
+
+or or
+
+Finally, for the last picture there isn't a choice – it's the one that remains. So we get the six permutations 
+
+
+Now this can be worked through, but what if we had 10 pictures. How many permutations would that be? Time for some maths to make it easier.
+
+For the first picture you had a choice of three. For the second picture you had a choice of two and then you had the last picture, with Hobson's choice (no choice!). Written algebraically this is 3 × 2 × 1. For large numbers this is very time consuming to write out, which is why mathematicians use factorial notation.
+
+A bit harder
+
+What happens if we did have 10 pictures and wanted to choose our three most favourite to hang up? How many permutations would we have then?
+
+For the first picture on the wall we could choose from all ten. For the next we could choose from the remaining nine, and for the third choice we could pick one from eight. 10 × 9 × 8 = 720.
+
+For this choice of pictures we have 720 permutations, but this isn't 10!.
+
+10! = 10 × 9 × 8 × 7 × 6 × 5 × 4 × 3 × 2 × 1 = 3628800
+
+We used the first three terms (10 × 9 × 8) but not the rest (7 × 6 × 5 × 4 × 3 × 2 × 1). But what we can do is work out 10! and then divide by the other bits:
+
+
+
+The final term is much easier than it it looks at first. It relates the number of items to choose from to the number of choices we made (hanging 3 pictures out of 10).
+
+Not surprisingly mathematicians have some shorthand for this too:
+
+
+
+where n is the number of different objects and r of them are to be arranged.
+
+
+
+Combinations
+
+So far, we have considered hanging pictures on a wall where the order they are hung is important. But what if the order is not important? Consider the hanging of the three pictures above, we had six permutations. But the three pictures were the same in the each permutation, they were all pictures A, B and C, however they were placed. They were only one combination. We had 3! permutations from three pictures and one combination. If you like, these three pictures made one set, and the same is true for each group of three pictures.
+
+Consider the problem of choosing three pictures from a set of ten. If we took the first three pictures (1, 2 and 3) we could arrange these in six different ways (permutations), as we did with the three pictures A, B and C. Now, if we take the next possible set of three: 2, 3 and 4, we can arrange these in six different permutations. Likewise for all the other sets of three pictures; each set of three can be arranged in six different ways, i.e. each set of three pictures will have six permutations. We know from the example above that there are 720 permutations when choosing three pictures from ten. And each set of three chosen can be arranged in 3! different ways. So the number of sets of three (i.e. the number of combinations) is 720 ÷ 3! = 120.
+
+.
+
+In the same way that permutations have shorthand, combinations have similar shorthand. All we have to do is divide the number of permutations by the number of permutation in each set. So, the right-hand side of the following equation is the same as the equation for the number of permutations except for an additional r! term in the divisor (which corrects for the number of permutations of each set). Note, also, that the P (for permutation) is replaced by C (for combination).
+
+.
+
+If you have a scientific calculator you should see these labelled (on some calculators they are separate keys, on others they are second-function keys). In general, you enter the number of items to choose from (n) then the nCr or nPr button and then the number of items to choose (r).
+
+
+   
+   
+   
+   
+   
+   

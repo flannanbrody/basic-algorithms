@@ -1,0 +1,672 @@
+Array Questions
+
+Q1.
+I have an array containing duplicates in the following format: 
+arr[]={ 2,9,1,5,1,4,9,7,2,1,4 } I want to sort the array in place such that all the duplicate elements are moved towards the end and sorted in different sub arrays like following: 
+arr[]={ 1,2,4,5,7,9, 1,2,4,9, 1 } 
+
+A1.
+The problem cant be done in less than nlgn because we need to use comparision sorting at one time or another 
+1.Sort inplace using quicksort taken nlgn time 
+2.set a pointer to last element of the array, now scan the array each time we get a duplicate, swap it with the pointer and move the pointer backwards, stop the scan when the value of 
+swapped variable is greater than next variable, save this location as pivot this takes n time 
+3.quicksort 0, pivot-1 and pivot-1 size this will give final output, this takes nlgn time 
+   therefore total time is O(nlgn)
+   
+   
+===========
+===========  
+
+Q2.
+Rearrange positive and negative numbers in O(n) time and O(1) extra space
+
+A2.
+An array contains both positive and negative numbers in random order. Rearrange the array elements so that positive and negative numbers are placed alternatively. Number of positive and 
+negative numbers need not be equal. If there are more positive numbers they appear at the end of the array. If there are more negative numbers, they too appear in the end of the array.
+For example, if the input array is [-1, 2, -3, 4, 5, 6, -7, 8, 9], then the output should be [9, -7, 8, -3, 5, -1, 2, 4, 6]
+The solution is to first separate positive and negative numbers using partition process of QuickSort. In the partition process, consider 0 as value of pivot element so that all negative 
+numbers are placed before positive numbers. Once negative and positive numbers are separated, we start from the first negative number and first positive number, and swap every alternate 
+negative number with next positive number.
+
+===========
+===========  
+
+
+
+Q3.
+Find the maximum repeating number in O(n) time and O(1) extra space
+
+A3.
+Given an array of size n, the array contains numbers in range from 0 to k-1 where k is a positive integer and k <= n. Find the maximum repeating number in this array. For example, let k 
+be 10 the given array be arr[] = {1, 2, 2, 2, 0, 2, 0, 2, 3, 8, 0, 9, 2, 3}, the maximum repeating number would be 2. Expected time complexity is O(n) and extra space allowed is O(1). 
+Modifications to array are allowed.
+The naive approach is to run two loops, the outer loop picks an element one by one, the inner loop counts number of occurrences of the picked element. Finally return the element with 
+maximum count. Time complexity of this approach is O(n^2).
+A better approach is to create a count array of size k and initialize all elements of count[] as 0. Iterate through all elements of input array, and for every element arr[i], 
+increment count[arr[i]]. Finally, iterate through count[] and return the index with maximum value. This approach takes O(n) time, but requires O(k) space.
+
+
+===========
+===========  
+
+
+Q4.
+Count the number of possible triangles
+A4.
+Given an unsorted array of positive integers. Find the number of triangles that can be formed with three different array elements as three sides of triangles. For a triangle to be 
+possible from 3 values, the sum of any two values (or sides) must be greater than the third value (or third side).
+For example, if the input array is {4, 6, 3, 7}, the output should be 3. There are three triangles possible {3, 4, 6}, {4, 6, 7} and {3, 6, 7}. Note that {3, 4, 7} is not a possible 
+triangle. As another example, consider the array {10, 21, 22, 100, 101, 200, 300}. There can be 6 possible triangles: {10, 21, 22}, {21, 100, 101}, {22, 100, 101}, {10, 100, 101}, 
+{100, 101, 200} and {101, 200, 300}
+Method 1 (Brute force)
+The brute force method is to run three loops and keep track of the number of triangles possible so far. The three loops select three different values from array, the innermost loop 
+checks for the triangle property ( the sum of any two sides must be greater than the value of third side).
+Time Complexity: O(N^3) where N is the size of input array.
+Method 2 (Tricky and Efficient)
+Let a, b and c be three sides. The below condition must hold for a triangle (Sum of two sides is greater than the third side)
+i) a + b > c
+ii) b + c > a
+iii) a + c > b
+Following are steps to count triangle.
+1. Sort the array in non-decreasing order.
+2. Initialize two pointers i and j to first and second elements respectively, and initialize count of triangles as 0.
+3. Fix i and j and find the rightmost index k (or largest arr[k]) such that arr[i] + arr[j] > arr[k]. The number of triangles that can be formed with arr[i] and arr[j] as two sides 
+   is k  j. Add k  j to count of triangles. Let us consider arr[i] as a, arr[j] as b and all elements between arr[j+1] and arr[k] as c. The above mentioned conditions (ii) and (iii) are 
+   satisfied because arr[i] < arr[j] < arr[k]'. And we check for condition (i) when we pick 'k'
+4. Increment j to fix the second element again.
+   Note that in step 2, we can use the previous value of k. The reason is simple, if we know that the value of arr[i] + arr[j-1] is greater than arr[k], then we can say arr[i] + arr[j] will 
+   also be greater than arr[k], because the array is sorted in increasing order.
+5. If j has reached end, then increment i. Initialize j as i + 1, k as i+2 and repeat the steps 3 and 4.   
+   
+   
+===========
+===========  
+   
+   
+   
+
+Q5.
+FisherYates shuffle Algorithm works in O(n) time complexity. The assumption here is, we are given a function rand() that generates random number in O(1) time.
+The idea is to start from the last element, swap it with a randomly selected element from the whole array (including last). Now consider the array from 0 to n-2 (size reduced by 1), 
+and repeat the process till we hit the first element.
+
+A5. Following is the detailed algorithm To shuffle an array a of n elements (indices 0..n-1):   
+            for i from n - 1 downto 1 do        
+			j = random integer with 0 <= j <= i        
+			exchange a[j] and a[i]
+			
+
+===========
+===========  
+
+
+Q6.
+Print unique rows in a given boolean matrix
+
+A6.
+Given a binary matrix, print all unique rows of the given matrix.
+Input: 	{0, 1, 0, 0, 1}         
+        {1, 0, 1, 1, 0}         
+        {0, 1, 0, 0, 1}         
+        {1, 1, 1, 0, 0} 
+        
+        Output: 	0 1 0 0 1  	1 0 1 1 0  	1 1 1 0 0  
+Method 1 (Simple)
+A simple approach is to check each row with all processed rows. Print the first row. Now, starting from the second row, for each row, compare the row with already processed rows. If the 
+row matches with any of the processed rows, dont print it. If the current row doesnt match with any row, print it.
+Time complexity: O( ROW^2 x COL )
+Auxiliary Space: O( 1 )
+
+Method 2 (Use Binary Search Tree)
+Find the decimal equivalent of each row and insert it into BST. Each node of the BST will contain two fields, one field for the decimal value, other for row number. Do not insert a node 
+if it is duplicated. Finally, traverse the BST and print the corresponding rows.
+Time complexity: O( ROW x COL + ROW x log( ROW ) )
+Auxiliary Space: O( ROW )
+This method will lead to Integer Overflow if number of columns is large.
+
+Method 3 (Use Trie data structure)
+Since the matrix is boolean, a variant of Trie data structure can be used where each node will be having two children one for 0 and other for 1. Insert each row in the Trie. 
+If the row is already there, dont print the row. If row is not there in Trie, insert it in Trie and print it.
+
+===========
+===========
+
+
+
+Q7. 
+The Celebrity Problem
+A7.
+Another classical problem.
+In a party of N people, only one person is known to everyone. Such a person may be present in the party, if yes, (s)he doesnt know anyone in the party. We can only ask questions like does 
+A know B? . Find the stranger (celebrity) in minimum number of questions. We can describe the problem input as an array of numbers/characters representing persons in the party. We also 
+have a hypothetical function HaveAcquaintance(A, B) which returns true if A knows B,false otherwise. How can we solve the problem, try yourself first. We measure the complexity in terms 
+of calls made to HaveAcquaintance().
+
+Graph:
+We can model the solution using graphs. Initialize indegree and outdegree of every vertex as 0. If A knows B, draw a directed edge from A to B, increase indegree of B and outdegree of A
+by 1. Construct all possible edges of the graph for every possible pair [i, j]. We have NC2 pairs. If celebrity is present in the party, we will have one sink node in the graph with 
+outdegree of zero, and indegree of N-1. We can find the sink node in (N) time, but the overall complexity is O(N2) as we need to construct the graph first.
+
+Recursion:
+We can decompose the problem into combination of smaller instances. Say, if we know celebrity of N-1 persons, can we extend the solution to N? We have two possibilities, 
+Celebrity(N-1) may know N, or N already knew Celebrity(N-1). In the former case, N will be celebrity if N doesnt know anyone else. In the later case we need to check that Celebrity(N-1) 
+doesnt know N. Solve the problem of smaller instance during divide step. On the way back, we may find a celebrity from the smaller instance. During combine stage, check whether the 
+returned celebrity is known to everyone and he doesnt know anyone. The recurrence of the recursive decomposition is,
+T(N) = T(N-1) + O(N)
+T(N) = O(N2). You may try Writing pseudo code to check your recursion skills.
+
+Using Stack:
+The graph construction takes O(N2) time, it is similar to brute force search. In case of recursion, we reduce the problem instance by not more than one, and also combine step may examine 
+M-1 persons (M  instance size).
+We have following observation based on elimination technique (Refer Polyas How to Solve It book).
+	If A knows B, then A cant be celebrity. Discard A, and B may be celebrity.
+	If A doesnt know B, then B cant be celebrity. Discard B, and A may be celebrity.
+	Repeat above two steps till we left with only one person.
+	Ensure the remained person is celebrity. (Why do we need this step?)
+We can use stack to verity celebrity.
+1.	Push all the celebrities into a stack.
+2.	Pop off top two persons from the stack, discard one person based on return status ofHaveAcquaintance(A, B).
+3.	Push the remained person onto stack.
+4.	Repeat step 2 and 3 until only one person remains in the stack.
+5.	Check the remained person in stack doesnt have acquaintance with anyone else.
+We will discard N elements utmost (Why?). If the celebrity is present in the party, we will callHaveAcquaintance() 3(N-1) times. Here is code using stack.
+
+
+
+===========
+===========
+
+
+Q8.
+Find the two numbers with odd occurrences in an unsorted array
+A8.
+Given an unsorted array that contains even number of occurrences for all numbers except two numbers. Find the two numbers which have odd occurrences in O(n) time complexity and O(1) extra space.
+Examples:
+Input: {12, 23, 34, 12, 12, 23, 12, 45} Output: 34 and 45  
+Input: {4, 4, 100, 5000, 4, 4, 4, 4, 100, 100} Output: 100 and 5000  
+Input: {10, 20} Output: 10 and 20 
+A naive method to solve this problem is to run two nested loops. The outer loop picks an element and the inner loop counts the number of occurrences of the picked element. If the count 
+of occurrences is odd then print the number. The time complexity of this method is O(n^2).
+We can use sorting to get the odd occurring numbers in O(nLogn) time. First sort the numbers using an O(nLogn) sorting algorithm like Merge Sort, Heap Sort.. etc. Once the array is 
+sorted, all we need to do is a linear scan of the array and print the odd occurring number.We can also use hashing. Create an empty hash table which will have elements and their counts. 
+Pick all elements of input array one by one. Look for the picked element in hash table. If the element is found in hash table, increment its count in table. If the element is not found, 
+then enter it in hash table with count as 1. After all elements are entered in hash table, scan the hash table and print elements with odd count. This approach may take O(n) time on 
+average, but it requires O(n) extra space.
+
+
+A O(n) time and O(1) extra space solution:
+The idea is similar to method 2 of this post. Let the two odd occurring numbers be x and y. We use bitwise XOR to get x and y. The first step is to do XOR of all elements present in array. XOR of all elements gives us XOR of x and y because of the following properties of XOR operation.
+1) XOR of any number n with itself gives us 0, i.e., n ^ n = 0
+2) XOR of any number n with 0 gives us n, i.e., n ^ 0 = n
+3) XOR is cumulative and associative.
+So we have XOR of x and y after the first step. Let the value of XOR be xor2. Every set bit in xor2 indicates that the corresponding bits in x and y have values different from each other. For example, if x = 6 (0110) and y is 15 (1111), then xor2 will be (1001), the two set bits in xor2 indicate that the corresponding bits in x and y are different. In the second step, we pick a set bit of xor2 and divide array elements in two groups. Both x and y will go to different groups. In the following code, the rightmost set bit of xor2 is picked as it is easy to get rightmost set bit of a number. If we do XOR of all those elements of array which have the corresponding bit set (or 1), then we get the first odd number. And if we do XOR of all those elements which have the corresponding bit 0, then we get the other odd occurring number. This step works because of the same properties of XOR. All the occurrences of a number will go in same set. XOR of all occurrences of a number which occur even number number of times will result in 0 in its set. And the xor of a set will be one of the odd occurring elements.
+
+
+
+===========
+===========
+
+
+
+Q9.
+Find the smallest positive number missing from an unsorted array
+
+A9.
+You are given an unsorted array with both positive and negative elements. You have to find the smallest positive number missing from the array in O(n) time using constant extra space. 
+You can modify the original array.
+Examples
+ Input:  {2, 3, 7, 6, 8, -1, -10, 15}  Output: 1   
+ Input:  { 2, 3, -7, 6, 8, 1, -10, 15 }  Output: 4   
+ Input: {1, 1, 0, -1, -2}  Output: 2  
+Source: To find the smallest positive no missing from an unsorted array
+A naive method to solve this problem is to search all positive integers, starting from 1 in the given array. We may have to search at most n+1 numbers in the given array. So this solution 
+takes O(n^2) in worst case.
+We can use sorting to solve it in lesser time complexity. We can sort the array in O(nLogn) time. Once the array is sorted, then all we need to do is a linear scan of the array. So this 
+approach takes O(nLogn + n) time which is O(nLogn).
+We can also use hashing. We can build a hash table of all positive elements in the given array. Once the hash table is built. We can look in the hash table for all positive integers, 
+starting from 1. As soon as we find a number which is not there in hash table, we return it. This approach may take O(n) time on average, but it requires O(n) extra space.
+A O(n) time and O(1) extra space solution:
+The idea is similar to this post. We use array elements as index. To mark presence of an element x, we change the value at the index x to negative. But this approach doesnt work if there are non-positive (-ve and 0) numbers. So we segregate positive from negative numbers as first step and then apply the approach.
+Following is the two step algorithm.
+1) Segregate positive numbers from others i.e., move all non-positive numbers to left side. In the following code, segregate() function does this part.
+2) Now we can ignore non-positive elements and consider only the part of array which contains all positive elements. We traverse the array containing all positive numbers and to mark presence of an element x, we change the sign of value at index x to negative. We traverse the array again and print the first index which has positive value. In the following code, findMissingPositive() function does this part.
+
+
+
+===========
+===========
+
+
+
+Q10.
+Longest Monotonically Increasing Subsequence Size (N log N)
+A10
+Given an array of random numbers. Find longest monotonically increasing subsequence (LIS) in the array. I know many of you might have read recursive and dynamic programming (DP) solutions. 
+There are few requests for O(N log N) algo in the forum posts. For the time being, forget about recursive and DP solutions. Let us take small samples and extend the solution to large 
+instances. Even though it may look complex at first time, once if we understood the logic, coding is simple. Consider an input array A = {2, 5, 3}. I will extend the array during explanation.
+By observation we know that the LIS is either {2, 3} or {2, 5}. Note that I am considering only strictly increasing monotone sequences.
+Let us add two more elements, say 7, 11 to the array. These elements will extend the existing sequences. Now the increasing sequences are {2, 3, 7, 11} and {2, 5, 7, 11} for the input
+array {2, 5, 3, 7, 11}. Further, we add one more element, say 8 to the array i.e. input array becomes {2, 5, 3, 7, 11, 8}. Note that the latest element 8 is greater than smallest 
+element of any active sequence (will discuss shortly about active sequences). How can we extend the existing sequences with 8? First of all, can 8 be part of LIS? If yes, how? If we want 
+to add 8, it should come after 7 (by replacing 11). Since the approach is offline (what we mean by offline?), we are not sure whether adding 8 will extend the series or not. Assume there 
+is 9 in the input array, say {2, 5, 3, 7, 11, 8, 7, 9 }. We can replace 11 with 8, as there is potentially best candidate (9) that can extend the new series {2, 3, 7, 8} or {2, 5, 7, 8}.
+
+Our observation is, assume that the end element of largest sequence is E. We can add (replace) current element A[i] to the existing sequence if there is an element A[j] (j > i) such that 
+E < A[i] < A[j] or (E > A[i] < A[j]  for replace). In the above example, E = 11, A[i] = 8 and A[j] = 9.
+In case of our original array {2, 5, 3}, note that we face same situation when we are adding 3 to increasing sequence {2, 5}. I just created two increasing sequences to make explanation 
+simple. Instead of two sequences, 3 can replace 5 in the sequence {2, 5}. I know it will be confusing, I will clear it shortly!
+
+The question is, when will it be safe to add or replace an element in the existing sequence?
+Let us consider another sample A = {2, 5, 3}. Say, the next element is 1. How can it extend the current sequences {2,3} or {2, 5}. Obviously, it cant extend either. Yet, there is a 
+potential that the new smallest element can be start of an LIS. To make it clear, consider the array is {2, 5, 3, 1, 2, 3, 4, 5, 6}. Making 1 as new sequence will create new sequence 
+which is largest. The observation is, when we encounter new smallest element in the array, it can be a potential candidate to start new sequence. From the observations, we need to maintain
+lists of increasing sequences. In general, we have set of active lists of varying length. We are adding an element A[i] to these lists. We scan the lists (for end elements) in decreasing \
+order of their length. We will verify the end elements of all the lists to find a list whose end element is smaller than A[i] (floor value).
+
+Our strategy determined by the following conditions,
+1. If A[i] is smallest among all end candidates of active lists, we will start new active list of length 1.
+2. If A[i] is largest among all end candidates of active lists, we will clone the largest active list, and extend it by A[i].
+3. If A[i] is in between, we will find a list with largest end element that is smaller than A[i]. Clone and extend this list by A[i]. We will discard all other lists of same length as 
+   that of this modified list.
+
+Note that at any instance during our construction of active lists, the following condition is maintained. end element of smaller list is smaller than end elements of larger lists.
+It will be clear with an example, let us take example {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15}.
+  A[0] = 0. Case 1. There are no active lists, create one. 0. ----------------------------------------------------------------------------- A[1] = 8. 
+            Case 2. Clone and extend. 0. 0, 8. ----------------------------------------------------------------------------- A[2] = 4. 
+            Case 3. Clone, extend and discard. 0. 0, 4. 0, 8. Discarded ----------------------------------------------------------------------------- A[3] = 12. 
+            Case 2. Clone and extend. 0. 0, 4. 0, 4, 12. ----------------------------------------------------------------------------- A[4] = 2. 
+            Case 3. Clone, extend and discard. 0. 0, 2. 0, 4. Discarded. 0, 4, 12. ----------------------------------------------------------------------------- A[5] = 10. 
+            Case 3. Clone, extend and discard. 0. 0, 2. 0, 2, 10. 0, 4, 12. Discarded. ----------------------------------------------------------------------------- A[6] = 6. 
+            Case 3. Clone, extend and discard. 0. 0, 2. 0, 2, 6. 0, 2, 10. Discarded. ----------------------------------------------------------------------------- A[7] = 14. 
+            Case 2. Clone and extend. 0. 0, 2. 0, 2, 6. 0, 2, 6, 14. ----------------------------------------------------------------------------- A[8] = 1. 
+            Case 3. Clone, extend and discard. 0. 0, 1. 0, 2. Discarded. 0, 2, 6. 0, 2, 6, 14. ----------------------------------------------------------------------------- A[9] = 9. 
+            Case 3. Clone, extend and discard. 0. 0, 1. 0, 2, 6. 0, 2, 6, 9. 0, 2, 6, 14. Discarded. ----------------------------------------------------------------------------- A[10] = 5. 
+            Case 3. Clone, extend and discard. 0. 0, 1. 0, 1, 5. 0, 2, 6. Discarded. 0, 2, 6, 9. ----------------------------------------------------------------------------- A[11] = 13. 
+            Case 2. Clone and extend. 0. 0, 1. 0, 1, 5. 0, 2, 6, 9. 0, 2, 6, 9, 13. ----------------------------------------------------------------------------- A[12] = 3. 
+            Case 3. Clone, extend and discard. 0. 0, 1. 0, 1, 3. 0, 1, 5. Discarded. 0, 2, 6, 9. 0, 2, 6, 9, 13. ----------------------------------------------------------------------------- A[13] = 11. 
+            Case 3. Clone, extend and discard. 0. 0, 1. 0, 1, 3. 0, 2, 6, 9. 0, 2, 6, 9, 11. 0, 2, 6, 9, 13. Discarded. ----------------------------------------------------------------------------- A[14] = 7. 
+            Case 3. Clone, extend and discard. 0. 0, 1. 0, 1, 3. 0, 1, 3, 7. 0, 2, 6, 9. Discarded. 0, 2, 6, 9, 11. ---------------------------------------------------------------------------- A[15] = 15. 
+            Case 2. Clone and extend. 0. 0, 1. 0, 1, 3. 0, 1, 3, 7. 0, 2, 6, 9, 11. 0, 2, 6, 9, 11, 15. <-- LIS List ----------------------------------------------------------------------------
+
+It is required to understand above strategy to devise an algorithm. Also, ensure we have maintained the condition, end element of smaller list is smaller than end elements of larger lists. 
+Try with few other examples, before reading further. It is important to understand what happening to end elements.
+Algorithm: Querying length of longest is fairly easy. Note that we are dealing with end elements only. We need not to maintain all the lists. We can store the end elements in an array. 
+Discarding operation can be simulated with replacement, and extending a list is analogous to adding more elements to array.
+We will use an auxiliary array to keep end elements. The maximum length of this array is that of input. In the worst case the array divided into N lists of size one (note that it doest 
+lead to worst case complexity). To discard an element, we will trace ceil value of A[i] in auxiliary array (again observe the end elements in your rough work), and replace ceil value with 
+A[i]. We extend a list by adding element to auxiliary array. We also maintain a counter to keep track of auxiliary array length.
+Bonus: You have learnt Patience Sorting technique partially   .
+Here is a proverb, Tell me and I will forget. Show me and I will remember. Involve me and I will understand. So, pick a suit from deck of cards. Find the longest increasing sub-sequence of 
+cards from the shuffled suit. You will never forget the approach.
+
+
+
+===========
+===========
+
+
+Q11.
+Implement two stacks in an array
+A11.
+Create a data structure twoStacks that represents two stacks. Implementation of twoStacks should use only one array, i.e., both stacks should use the same array for storing elements. 
+Following functions must be supported by twoStacks.
+push1(int x) > pushes x to first stack
+push2(int x) > pushes x to second stack
+pop1() > pops an element from first stack and return the popped element
+pop2() > pops an element from second stack and return the popped element
+Implementation of twoStack should be space efficient.
+Method 1 (Divide the space in two halves)
+A simple way to implement two stacks is two divide the array in two halves and assign the half half space to two stacks, i.e., use arr[0] to arr[n/2] for stack1, 
+and arr[n/2+1] to arr[n-1] for stack2 where arr[] is the array to be used to implement two stacks and size of array be n.
+The problem with this method is inefficient use of array space. A stack push operation may result in stack overflow even if there is space available in arr[]. For example, say the array 
+size is 6 and we push 3 elements to stack1 and do not push anything to second stack2. When we push 4th element to stack1, there will be overflow even if we have space for 3 more elements 
+in array.
+
+Method 2 (A space efficient implementation)
+This method efficiently utilizes the available space. It doesnt cause an overflow if there is space available in arr[]. The idea is to start two stacks from two extreme corners of arr[]. 
+stack1 starts from the leftmost element, the first element in stack1 is pushed at index 0. The stack2 starts from the rightmost corner, the first element in stack2 is pushed at index (n-1). 
+Both stacks grow (or shrink) in opposite direction. To check for overflow, all we need to check is for space between top elements of both stacks. 
+
+===========
+===========
+
+
+Q12.
+Count smaller elements on right side
+
+A12.
+Write a function to count number of smaller elements on right of each element in an array. Given an unsorted array arr[] of distinct integers, construct another array 
+countSmaller[] such that countSmaller[i] contains count of smaller elements on right side of each element arr[i] in array.
+Examples:
+Input:   arr[] =  {12, 1, 2, 3, 0, 11, 4} Output:  countSmaller[]  =  {6, 1, 1, 1, 0, 1, 0}   (Corner Cases) Input:   arr[] =  {5, 4, 3, 2, 1} Output:  countSmaller[]  =  {4, 3, 2, 1, 0}   Input:   arr[] =  {1, 2, 3, 4, 5} Output:  countSmaller[]  =  {0, 0, 0, 0, 0} 
+Method 1 (Simple)
+Use two loops. The outer loop picks all elements from left to right. The inner loop iterates through all the elements on right side of the picked element and updates countSmaller[].
+void constructLowerArray (int *arr[], int *countSmaller, int n)
+{
+  int i, j;
+ 
+  // initialize all the counts in countSmaller array as 0
+  for  (i = 0; i < n; i++)
+     countSmaller[i] = 0;
+ 
+  for (i = 0; i < n; i++)
+  {
+    for (j = i+1; j < n; j++)
+    {
+       if (arr[j] < arr[i])
+         countSmaller[i]++;
+    }
+  }
+}
+ 
+/* Utility function that prints out an array on a line */
+void printArray(int arr[], int size)
+{
+  int i;
+  for (i=0; i < size; i++)
+    printf("%d ", arr[i]);
+ 
+  printf("\n");
+}
+ 
+// Driver program to test above functions
+int main()
+{
+  int arr[] = {12, 10, 5, 4, 2, 20, 6, 1, 0, 2};
+  int n = sizeof(arr)/sizeof(arr[0]);
+  int *low = (int *)malloc(sizeof(int)*n);
+  constructLowerArray(arr, low, n);
+  printArray(low, n);
+  return 0;
+}
+Time Complexity: O(n^2)
+Auxiliary Space: O(1)
+
+
+Method 2 (Use Self Balancing BST)
+A Self Balancing Binary Search Tree (AVL, Red Black,.. etc) can be used to get the solution in O(nLogn) time complexity. We can augment these trees so that every node N contains size 
+the subtree rooted with N. We have used AVL tree in the following implementation. We traverse the array from right to left and insert all elements one by one in an AVL tree. 
+While inserting a new key in an AVL tree, we first compare the key with root. If key is greater than root, then it is greater than all the nodes in left subtree of root. 
+So we add the size of left subtree to the count of smaller element for the key being inserted. We recursively follow the same approach for all nodes down the root.
+
+
+===========
+===========
+
+
+Q13. 
+Median in a stream of integers (running integers)
+A13.
+Given that integers are read from a data stream. Find median of elements read so for in efficient way. For simplicity assume there are no duplicates. For example, let us consider the 
+stream 5, 15, 1, 3. After reading 1st element of stream - 5 -> median - 5 After reading 2nd element of stream - 5, 15 -> median - 10 After reading 3rd element of stream - 5, 15, 1 -> median - 5 
+After reading 4th element of stream - 5, 15, 1, 3 -> median - 4, so on...
+Making it clear, when the input size is odd, we take the middle element of sorted data. If the input size is even, we pick average of middle two elements in sorted stream.
+Note that output is effective median of integers read from the stream so far. Such an algorithm is called online algorithm. Any algorithm that can guarantee output of i-elements after 
+processing i-th element, is said to be online algorithm. Let us discuss three solutions for the above problem.
+Method 1: Insertion Sort
+If we can sort the data as it appears, we can easily locate median element. Insertion Sort is one such online algorithm that sorts the data appeared so far. At any instance of sorting, 
+say after sorting i-th element, the first i elements of array are sorted. The insertion sort doesnt depend on future data to sort data input till that point. In other words, insertion sort 
+considers data sorted so far while inserting next element. This is the key part of insertion sort that makes it an online algorithm. However, insertion sort takes O(n2) time to sort n 
+elements. Perhaps we can use binary search on insertion sort to find location of next element in O(log n) time. Yet, we cant do data movement in O(log n) time. No matter how efficient the
+implementation is, it takes polynomial time in case of insertion sort. Interested reader can try implementation of Method 1.
+
+Method 2: Augmented self balanced binary search tree (AVL, RB, etc)
+At every node of BST, maintain number of elements in the subtree rooted at that node. We can use a node as root of simple binary tree, whose left child is self balancing BST with elements 
+less than root and right child is self balancing BST with elements greater than root. The root element always holds effective median.
+If left and right subtrees contain same number of elements, root node holds average of left and right subtree root data. Otherwise, root contains same data as the root of subtree which is 
+having more elements. After processing an incoming element, the left and right subtrees (BST) are differed utmost by 1. Self balancing BST is costly in managing balancing factor of BST. 
+However, they provide sorted data which we dont need. We need median only. The next method make use of Heaps to trace median.
+
+Method 3: Heaps
+Similar to balancing BST in Method 2 above, we can use a max heap on left side to represent elements that are less than effective median, and a min heap on right side to represent elements 
+that are greater than effective median. After processing an incoming element, the number of elements in heaps differ utmost by 1 element. When both heaps contain same number of elements, 
+we pick average of heaps root data aseffective median. When the heaps are not balanced, we select effective median from the root of heap containing more elements.
+Given below is implementation of above method. For algorithm to build these heaps, please read the highlighted code.
+
+
+===========
+===========
+
+
+Q14.
+Find the repeating and the missing
+
+A14.
+Given an unsorted array of size n. Array elements are in range from 1 to n. One number from set {1, 2, n} is missing and one number occurs twice in array. Find these two numbers.
+Examples:
+  arr[] = {3, 1, 3}   Output: 2, 3   // 2 is missing and 3 occurs twice     
+  arr[] = {4, 3, 6, 2, 1, 1}   Output: 1, 5  // 5 is missing and 1 occurs twice  
+
+Method 1 (Use Sorting)
+1) Sort the input array.
+2) Traverse the array and check for missing and repeating.
+Time Complexity: O(nLogn)
+
+Method 2 (Use count array)
+1) Create a temp array temp[] of size n with all initial values as 0.
+2) Traverse the input array arr[], and do following for each arr[i]
+a) if(temp[arr[i]] == 0) temp[arr[i]] = 1;
+b) if(temp[arr[i]] == 1) output arr[i] //repeating
+3) Traverse temp[] and output the array element having value as 0 (This is the missing element)
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+
+===========
+===========
+
+
+
+Q15.
+Count the number of occurrences in a sorted array
+
+A15.
+Given a sorted array arr[] and a number x, write a function that counts the occurrences of x in arr[]. Expected time complexity is O(Logn)
+Examples:
+  Input: arr[] = {1, 1, 2, 2, 2, 2, 3,},   x = 2   Output: 4 // x (or 2) occurs 4 times in arr[]    
+  Input: arr[] = {1, 1, 2, 2, 2, 2, 3,},   x = 3   Output: 1     Input: arr[] = {1, 1, 2, 2, 2, 2, 3,},   x = 1   Output: 2     
+  Input: arr[] = {1, 1, 2, 2, 2, 2, 3,},   x = 4   Output: -1 // 4 doesn't occur in arr[] 
+Method 1 (Linear Search)
+Linearly search for x, count the occurrences of x and return the count.
+Time Complexity: O(n)
+Method 2 (Use Binary Search)
+1) Use Binary search to get index of the first occurrence of x in arr[]. Let the index of the first occurrence be i.
+2) Use Binary search to get index of the last occurrence of x in arr[]. Let the index of the last occurrence be j.
+3) Return (j  i + 1);
+
+
+===========
+===========
+
+
+
+Q16.
+Check if array elements are consecutive
+
+A16.
+Given an unsorted array of numbers, write a function that returns true if array consists of consecutive numbers.
+Examples:
+a) If array is {5, 2, 3, 1, 4}, then the function should return true because the array has consecutive numbers from 1 to 5.
+b) If array is {83, 78, 80, 81, 79, 82}, then the function should return true because the array has consecutive numbers from 78 to 83.
+c) If the array is {34, 23, 52, 12, 3 }, then the function should return false because the elements are not consecutive.
+d) If the array is {7, 6, 5, 5, 3, 4}, then the function should return false because 5 and 5 are not consecutive.
+Method 1 (Use Sorting)
+1) Sort all the elements.
+2) Do a linear scan of the sorted array. If the difference between current element and next element is anything other than 1, then return false. If all differences are 1, then return true.
+Time Complexity: O(nLogn)
+Method 2 (Use visited array)
+The idea is to check for following two conditions. If following two conditions are true, then return true.
+ 1) max  min + 1 = n where max is the maximum element in array, min is minimum element in array and n is the number of elements in array.
+ 2) All elements are distinct.
+To check if all elements are distinct, we can create a visited[] array of size n. We can map the ith element of input array arr[] to visited array by using arr[i]  min as index in visited[].
+
+
+
+===========
+===========
+
+
+
+Q17.
+k largest(or smallest) elements in an array | added Min Heap method
+
+A17.
+Question: Write an efficient program for printing k largest elements in an array. Elements in array can be in any order.
+For example, if given array is [1, 23, 12, 9, 30, 2, 50] and you are asked for the largest 3 elements i.e., k = 3 then your program should print 50, 30 and 23.
+
+Method 1 (Use Bubble k times).
+1) Modify Bubble Sort to run the outer loop at most k times.
+2) Print the last k elements of the array obtained in step 1.
+Time Complexity: O(nk)
+Like Bubble sort, other sorting algorithms like Selection Sort can also be modified to get the k largest elements.
+
+Method 2 (Use temporary array)
+K largest elements from arr[0..n-1]
+1) Store the first k elements in a temporary array temp[0..k-1].
+2) Find the smallest element in temp[], let the smallest element be min.
+3) For each element x in arr[k] to arr[n-1]
+If x is greater than the min then remove min from temp[] and insert x.
+4) Print final k elements of temp[]
+Time Complexity: O((n-k)*k). If we want the output sorted then O((n-k)*k + klogk)
+Thanks to nesamani1822 for suggesting this method.
+
+Method 3(Use Sorting)
+1) Sort the elements in descending order in O(nLogn)
+2) Print the first k numbers of the sorted array O(k).
+Time complexity: O(nlogn)
+
+Method 4 (Use Max Heap)
+1) Build a Max Heap tree in O(n)
+2) Use Extract Max k times to get k maximum elements from the Max Heap O(klogn)
+Time complexity: O(n + klogn)
+
+Method 5(Use Order Statistics)
+1) Use order statistic algorithm to find the kth largest element. Please see the topic selection in worst-case linear time O(n)
+2) Use QuickSort Partition algorithm to partition around the kth largest number O(n).
+3) Sort the k-1 elements (elements greater than the kth largest element) O(kLogk). This step is needed only if sorted output is required.
+Time complexity: O(n) if we dont need the sorted output, otherwise O(n+kLogk)
+Thanks to Shilpi for suggesting the first two approaches.
+
+Method 6 (Use Min Heap)
+This method is mainly an optimization of method 1. Instead of using temp[] array, use Min Heap.
+Thanks to geek4u for suggesting this method.
+1) Build a Min Heap MH of the first k elements (arr[0] to arr[k-1]) of the given array. O(k)
+2) For each element, after the kth element (arr[k] to arr[n-1]), compare it with root of MH.
+a) If the element is greater than the root then make it root and call heapify for MH
+b) Else ignore it.
+// The step 2 is O((n-k)*logk)
+3) Finally, MH has k largest elements and root of the MH is the kth largest element.
+Time Complexity: O(k + (n-k)Logk) without sorted output. If sorted output is needed then O(k + (n-k)Logk + kLogk)
+All of the above methods can also be used to find the kth largest (or smallest) element.
+
+
+
+
+Extra Notes
+===========
+===========
+
+long[] a = {1, 3, 5, 7, 9};
+int i = 0;
+inside a loop....
+			System.out.println("a[i] :" + a[i] ); //1
+			System.out.println("a[i] :" + a[i++]) //1
+			System.out.println("a[i] :" + a[++i]) //3
+			
+===========
+===========
+Bumping elements down in array.
+
+		int N = array.length - 1;
+		for (int j = 0; j < amount; j++) {
+			int a = array[N];
+			int i;
+			for (i = N; i > 0; i--){
+				array[i] = array[i - 1];  //bump everything down.. we hold onto a[N] = 20...then insert at beginning ...[1, 3, 5, 7, 8, 11, 14, 17, 17]
+			}
+			array[i] = a;
+		}
+
+===========
+===========
+	// A utility function to find min of three integers
+	public static int min(int a, int b, int c){ 
+		return min(min(a, b), c);
+	}
+
+===========
+===========
+populate matrix
+
+        // create N-by-N matrix
+        int N = Integer.parseInt("9");
+        int[][] a = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                a[i][j] = N*i + j;
+            }
+        }
+       
+           0   1   2   3   4   5   6   7   8
+		   9  10  11  12  13  14  15  16  17
+		  18  19  20  21  22  23  24  25  26
+		  27  28  29  30  31  32  33  34  35
+		  36  37  38  39  40  41  42  43  44
+		  45  46  47  48  49  50  51  52  53
+		  54  55  56  57  58  59  60  61  62
+		  63  64  65  66  67  68  69  70  71
+		  72  73  74  75  76  77  78  79  80 
+        
+
+===========
+===========
+
+		Random myRandom = new Random();
+		System.out.print("Numbers: ");
+		for(int i=0; i < N;i++)
+		{
+			nums[i] = i + myRandom.nextInt(N - i);//each number is random from 0-99
+			System.out.print(nums[i]+",");
+		}
+===========
+===========
+
+
+===========
+===========
+
+
+===========
+===========
+
+
+===========
+===========
+
+
+===========
+===========
+
+
+===========
+===========
+
+
+===========
+===========
+
+
+===========
+===========
+
+
+===========
+===========
+
+
+===========
+===========
+
+===========
+===========
+

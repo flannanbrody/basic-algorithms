@@ -1,0 +1,347 @@
+===========================================================
+===========================================================
+Check if each internal node of a BST has exactly one child
+===========================================================
+===========================================================
+
+if all the internal modes in BST have only one child then its preorder has a special property i.e. every element is min or 
+max of all the succeeding elements.
+
+Given Preorder traversal of a BST, check if each non-leaf node has only one child. Assume that the BST contains unique 
+entries.
+
+Examples
+
+Input: pre[] = {20, 10, 11, 13, 12}
+Output: Yes
+The give array represents following BST. In the following BST, every internal
+node has exactly 1 child. Therefor, the output is true.
+        20
+       /
+      10
+       \
+        11
+          \
+           13
+           /
+         12
+In Preorder traversal, descendants (or Preorder successors) of every node appear after the node. In the above example, 20 
+is the first node in preorder and all descendants of 20 appear after it. All descendants of 20 are smaller than it. For 10, 
+all descendants are greater than it. In general, we can say, if all internal nodes have only one child in a BST, then all 
+the descendants of every node are either smaller or larger than the node. The reason is simple, since the tree is BST and 
+every node has only one child, all descendants of a node will either be on left side or right side, means all descendants 
+will either be smaller or greater.
+
+Approach 1 (Naive) 
+This approach simply follows the above idea that all values on right side are either smaller or larger. Use two loops, the 
+outer loop picks an element one by one, starting from the leftmost element. The inner loop checks if all elements on the 
+right side of the picked element are either smaller or greater. The time complexity of this method will be O(n^2).
+
+Approach 2
+Since all the descendants of a node must either be larger or smaller than the node. We can do following for every node in a loop.
+1. Find the next preorder successor (or descendant) of the node.
+2. Find the last preorder successor (last element in pre[]) of the node.
+3. If both successors are less than the current node, or both successors are greater than the current node, then continue. 
+Else, return false.
+
+
+
+
+
+===========================================================
+===========================================================
+Binary Tree to Binary Search Tree Conversion
+===========================================================
+===========================================================
+
+Given a Binary Tree, convert it to a Binary Search Tree. The conversion must be done in such a way that keeps the original 
+structure of Binary Tree.
+
+Examples.
+
+Example 1
+Input:
+          10
+         /  \
+        2    7
+       / \
+      8   4
+Output:
+          8
+         /  \
+        4    10
+       / \
+      2   7
+
+
+Example 2
+Input:
+          10
+         /  \
+        30   15
+       /      \
+      20       5
+Output:
+          15
+         /  \
+       10    20
+       /      \
+      5        30
+Solution
+Following is a 3 step solution for converting Binary tree to Binary Search Tree.
+1) Create a temp array arr[] that stores inorder traversal of the tree. This step takes O(n) time.
+2) Sort the temp array arr[]. Time complexity of this step depends upon the sorting algorithm. In the following implementation, 
+   Quick Sort is used which takes (n^2) time. This can be done in O(nLogn) time using Heap Sort or Merge Sort.
+3) Again do inorder traversal of tree and copy array elements to tree nodes one by one. This step takes O(n) time.
+
+
+
+===========================================================
+===========================================================
+Merge Two Balanced Binary Search Trees
+===========================================================
+===========================================================
+...Could use RedBlackTree....rotations..
+
+You are given two balanced binary search trees e.g., AVL or Red Black Tree. Write a function that merges the two given 
+balanced BSTs into a balanced binary search tree. Let there be m elements in first tree and n elements in the other tree. 
+Your merge function should take O(m+n) time.
+
+In the following solutions, it is assumed that sizes of trees are also given as input. If the size is not given, then we 
+can get the size by traversing the tree (See this).
+
+Method 1 (Insert elements of first tree to second) 
+Take all elements of first BST one by one, and insert them into the second BST. Inserting an element to a self balancing 
+BST takes Logn time (See this) where n is size of the BST. So time complexity of this method is Log(n) + Log(n+1) Log(m+n-1). 
+The value of this expression will be between mLogn and mLog(m+n-1). As an optimization, we can pick the smaller tree as 
+first tree.
+
+Method 2 (Merge Inorder Traversals) 
+1) Do inorder traversal of first tree and store the traversal in one temp array arr1[]. This step takes O(m) time.
+2) Do inorder traversal of second tree and store the traversal in another temp array arr2[]. This step takes O(n) time.
+3) The arrays created in step 1 and 2 are sorted arrays. Merge the two sorted arrays into one array of size m + n. This 
+   step takes O(m+n) time.
+4) Construct a balanced tree from the merged array using the technique discussed in this post. This step takes O(m+n) time.
+
+
+
+===========================================================
+===========================================================
+Find the largest BST subtree in a given Binary Tree
+===========================================================
+===========================================================
+
+Given a Binary Tree, write a function that returns the size of the largest subtree which is also a Binary Search Tree (BST). If the complete Binary Tree is BST, then return the size of whole tree.
+
+Examples:
+
+Input: 
+      5
+    /  \
+   2    4
+ /  \
+1    3
+
+Output: 3 
+The following subtree is the maximum size BST subtree 
+   2  
+ /  \
+1    3
+
+
+Input: 
+       50
+     /    \
+  30       60
+ /  \     /  \ 
+5   20   45    70
+              /  \
+            65    80
+Output: 5
+The following subtree is the maximum size BST subtree 
+      60
+     /  \ 
+   45    70
+        /  \
+      65    80
+Method 1 (Simple but inefficient)
+Start from root and do an inorder traversal of the tree. For each node N, check whether the subtree rooted with N is BST or 
+not. If BST, then return size of the subtree rooted with N. Else, recur down the left and right subtrees and return the 
+maximum of values returned by left and right subtrees.
+
+/* 
+  See http://www.geeksforgeeks.org/archives/632 for implementation of size()
+ 
+  See Method 3 of http://www.geeksforgeeks.org/archives/3042 for
+  implementation of isBST() 
+ 
+  max() returns maximum of two integers 
+*/  
+int largestBST(struct node *root)
+{
+   if (isBST(root))
+     return size(root); 
+   else
+    return max(largestBST(root->left), largestBST(root->right));
+}
+Time Complexity: The worst case time complexity of this method will be O(n^2). Consider a skewed tree for worst case analysis.
+
+
+
+Method 2 (Tricky and Efficient)
+In method 1, we traverse the tree in top down manner and do BST test for every node. If we traverse the tree in bottom up 
+manner, then we can pass information about subtrees to the parent. The passed information can be used by the parent to do 
+BST test (for parent node) only in constant time (or O(1) time). A left subtree need to tell the parent whether it is BST 
+or not and also need to pass maximum value in it. So that we can compare the maximum value with the parent's data to check 
+the BST property. Similarly, the right subtree need to pass the minimum value up the tree. The subtrees need to pass the 
+following information up the tree for the finding the largest BST.
+1) Whether the subtree itself is BST or not (In the following code, is_bst_ref is used for this purpose)
+2) If the subtree is left subtree of its parent, then maximum value in it. And if it is right subtree then minimum value in it.
+3) Size of this subtree if this subtree is BST (In the following code, return value of largestBSTtil() is used for this purpose)
+
+
+
+
+
+===========================================================
+===========================================================
+Convert a given tree to its Sum Tree
+===========================================================
+===========================================================
+Given a Binary Tree where each node has positive and negative values. Convert this to a tree where each node contains the 
+sum of the left and right sub trees in the original tree. The values of leaf nodes are changed to 0.
+
+For example, the following tree
+
+                  10
+               /      \
+	         -2        6
+           /   \      /  \ 
+	     8     -4    7    5
+should be changed to
+
+                 20(4-2+12+6)
+               /      \
+	        4(8-4)      12(7+5)
+           /   \      /  \ 
+	     0      0    0    0
+Solution:
+Do a traversal of the given tree. In the traversal, store the old value of the current node, recursively call for left and 
+right subtrees and change the value of current node as sum of the values returned by the recursive calls. Finally return 
+the sum of new value and value (which is sum of values in the subtree rooted with this node).
+
+
+
+===========================================================
+===========================================================
+Check if a given Binary Tree is SumTree
+===========================================================
+===========================================================
+Write a function that returns true if the given Binary Tree is SumTree else false. A SumTree is a Binary Tree where the value 
+of a node is equal to sum of the nodes present in its left subtree and right subtree. An empty tree is SumTree and sum of an 
+empty tree can be considered as 0. A leaf node is also considered as SumTree.
+
+Following is an example of SumTree.
+
+          26
+        /   \
+      10     3
+    /    \     \
+  4      6      3
+Method 1 ( Simple ) 
+Get the sum of nodes in left subtree and right subtree. Check if the sum calculated is equal to root's data. Also, recursively 
+check if the left and right subtrees are SumTrees.
+
+
+
+
+
+===========================================================
+===========================================================
+Connect nodes at same level
+===========================================================
+===========================================================
+Write a function to connect all the adjacent nodes at the same level in a binary tree. Structure of the given Binary Tree node is like following.
+
+struct node{
+  int data;
+  struct node* left;
+  struct node* right;
+  struct node* nextRight;  
+}
+Initially, all the nextRight pointers point to garbage values. Your function should set these pointers to point next right for each node.
+
+Example
+
+Input Tree
+       A
+      / \
+     B   C
+    / \   \
+   D   E   F
+
+
+Output Tree
+       A--->NULL
+      / \
+     B-->C-->NULL
+    / \   \
+   D-->E-->F-->NULL
+Method 1 (Extend Level Order Traversal or BFS)
+Consider the method 2 of Level Order Traversal. The method 2 can easily be extended to connect nodes of same level. We can 
+augment queue entries to contain level of nodes also which is 0 for root, 1 for root's children and so on. So a queue node 
+will now contain a pointer to a tree node and an integer level. When we enqueue a node, we make sure that correct level value 
+for node is being set in queue. To set nextRight, for every node N, we dequeue the next node from queue, if the level number 
+of next node is same, we set the nextRight of N as address of the dequeued node, otherwise we set nextRight of N as NULL.
+
+Time Complexity: O(n)
+
+Method 2 (Extend Pre Order Traversal)
+This approach works only for Complete Binary Trees. In this method we set nextRight in Pre Order fashion to make sure that 
+the nextRight of parent is set before its children. When we are at node p, we set the nextRight of its left and right children. 
+Since the tree is complete tree, nextRight of p's left child (p->left->nextRight) will always be p's right child, and nextRight 
+of p's right child (p->right->nextRight) will always be left child of p's nextRight (if p is not the rightmost node at its 
+level). If p is the rightmost node, then nextRight of p's right child will be NULL.
+
+
+
+===========================================================
+===========================================================
+Maximum width of a binary tree
+===========================================================
+===========================================================
+Given a binary tree, write a function to get the maximum width of the given tree. Width of a tree is maximum of widths of all levels.
+
+Let us consider the below example tree.
+
+         1
+        /  \
+       2    3
+     /  \     \
+    4    5     8 
+              /  \
+             6    7
+For the above tree,
+width of level 1 is 1,
+width of level 2 is 2,
+width of level 3 is 3
+width of level 4 is 2.
+
+So the maximum width of the tree is 3.
+
+
+
+Method 1 (Using Level Order Traversal)
+This method mainly involves two functions. One is to count nodes at a given level (getWidth), and other is to get the 
+maximum width of the tree(getMaxWidth). getMaxWidth() makes use of getWidth() to get the width of all levels starting from 
+root.
+
+Method 2 (Using Preorder Traversal)
+In this method we create a temporary array count[] of size equal to the height of tree. We initialize all values in count 
+as 0. We traverse the tree using preorder traversal and fill the entries in count so that the count array contains count of 
+nodes at each level in Binary Tree.
+
+
+
+
+
